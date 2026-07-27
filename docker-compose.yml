@@ -3,13 +3,24 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: final
     restart: always
+    container_name: iris_ml
     environment:
       - ISC_CPF_MERGE_FILE=/home/irisowner/dev/merge.cpf
+      - IRISNAMESPACE=IRISAPP
+      - PYTHONPATH=/home/irisowner/dev/custom_models:/usr/irissys/mgr/python
+      - PYTHONIOENCODING=utf-8
     ports:
-      - 1972
-      - 52773
-      - 53773
+      - 1970:1972
+      - 42773:52773
+      - 43773:53773
     volumes:
       - ./:/home/irisowner/dev
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
